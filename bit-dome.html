@@ -21,6 +21,9 @@
         <ul class="nav navbar-nav">
           {{> navItems}}
         </ul>
+        <ul class="navbar-form navbar-right">
+          {{> userInfo}}
+        </ul>
       </div><!--/.nav-collapse -->
     </div>
   </nav>
@@ -35,6 +38,13 @@
   <li class="{{ activeIfTemplateIs 'About' }}">
     <a href="{{ pathFor 'about'}}">About</a>
   </li>
+</template>
+
+<template name="userInfo">
+  <p>
+    <strong>20</strong> Credits
+    <strong>$19</strong> Donated to Charity
+  </p>
 </template>
 
 <template name="Home">
