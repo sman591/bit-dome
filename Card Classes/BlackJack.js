@@ -7,6 +7,10 @@ var player = class.extend({
 	giveCard: function(card){
 		hand.push(card);
 	}
+	bet: function(amount){
+		money-=amount;
+		return amount;
+	}
 });
 
 var playerArray = class.extend({
@@ -34,5 +38,39 @@ var dealer= class.extend({
 	}
 	hit: function(player){
 		player.setCard(deck.draw());
+	}
+	play: function(){
+		var z=true;
+		while(z==true)
+			var total=0;
+			for(i=0; i<hand.length; i++){
+				total+=hand[i];
+			}
+			if(total<14)
+				hit();
+	}
+});
+var rounds = class.extend({
+	init: function(dealer. playerArray){
+		this.dealer=dealer;
+		this.playerArray=playerArray;
+	}
+	choose: function(tem){
+		if(tem==true){
+			player.hit();
+		}
+	}
+	round: function(){
+		while(true){
+			dealer.deal();
+			for(i=0; i<playerArray.length; i++){
+				playerArray[i].bet();
+
+			}
+			for(i=0; i<playerArray.length; i++){
+				this.choose();
+			}
+			dealer.play();
+		}
 	}
 });
