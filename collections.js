@@ -14,7 +14,9 @@ Players.helpers({
   value: function() {
     totalValue = 0;
     this.cards().forEach(function(card) {
-      totalValue += card.getBlackjackValue();
+      if (card.faceUp == 1) {
+        totalValue += card.getBlackjackValue();
+      }
     });
     return totalValue;
   },
@@ -67,7 +69,9 @@ BlackjackGames.helpers({
   dealerValue: function() {
     totalValue = 0;
     this.dealerCards().forEach(function(card) {
-      totalValue += card.getBlackjackValue();
+      if (card.faceUp == 1) {
+        totalValue += card.getBlackjackValue();
+      }
     });
     return totalValue;
   },
