@@ -4,6 +4,10 @@ if (Meteor.isClient) {
     layoutTemplate: 'ApplicationLayout'
   });
 
+  Router.plugin('ensureSignedIn', {
+      except: ['home', 'about', 'atSignIn', 'atSignUp', 'atForgotPassword']
+  });
+
   Router.route('/', function () {
     this.render('Home');
   }, {
