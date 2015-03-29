@@ -139,3 +139,20 @@ body {
   }
 }
 
+ul.cards {
+  list-style: none;
+  padding-left: 20px;
+}
+
+ul.cards li {
+  display: inline-block;
+  margin: 0 0 0 -20px;
+  padding: 0;
+  -webkit-transition:margin 0.3s;
+  transition:margin 0.3s;
+}
+
+ul.cards li:hover {
+  margin-left: 5px;
+  margin-right: 25px;
+}

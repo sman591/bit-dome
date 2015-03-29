@@ -145,7 +145,7 @@
           {{#each game.players}}
             <li>Account ID: {{accountId}}</li>
             <li>Hand Cards: {{cards.length}}
-              <ul>
+              <ul class="cards">
                 {{#each cards}}
                   {{> card}}
                 {{/each}}
@@ -153,14 +153,14 @@
           {{/each}}
         </ul>
         <h3>Dealer Cards:</h3>
-        <ul>
+        <ul class="cards">
           {{#each game.dealerCards}}
             {{> card}}
           {{/each}}
         </ul>
         <h3>Deck:</h3>
         <p>{{game.deck.cards.length}} Cards</p>
-        <!-- <ul>
+        <!-- <ul class="cards">
           {{#each game.deck.cards}}
             {{> card}}
           {{/each}}
@@ -190,9 +190,9 @@
 </template>
 
 <template name="card">
-  <li>Card:<ul>
+  <li>
     <img src="{{getImagePath}}" />
-  </ul></li>
+  </li>
 </template>
 
 <template name="hello">
