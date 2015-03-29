@@ -146,13 +146,12 @@ ul.cards {
 
 ul.cards li {
   display: inline-block;
-  margin: 0 0 0 -20px;
+  margin: 0 -20px 0 0;
   padding: 0;
   -webkit-transition:margin 0.3s;
   transition:margin 0.3s;
 }
 
 ul.cards li:hover {
-  margin-left: 5px;
-  margin-right: 25px;
+  margin-right: 0px;
 }
