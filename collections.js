@@ -23,7 +23,9 @@ BlackjackGames.helpers({
   deal: function() {
     var self = this;
     this.players().forEach(function(player) {
-      Players.update({_id: player._id}, {$push: {cardIds: self.deck().drawCard()}});
+      var newCardId = self.deck().drawCard();
+      Players.update({_id: player._id}, {$push: {cardIds: newCardId}});
+      Cards.findOne({_id: newCardId}).turnOver();
     });
     BlackjackGames.update({_id: this._id}, {$push: {dealerCardIds: this.deck().drawCard()}});
   },
@@ -75,7 +77,9 @@ Cards.helpers({
     }
   },
   getImagePath: function() {
-    if(this.value < 11)
+    if (this.faceUp == 0)
+      return "/cards/b1fv.png"
+    if (this.value < 11)
       return "/cards/" + this.getHumanSuit().charAt(0).toLowerCase() + this.value + ".png";
     else
       return "/cards/" + this.getHumanSuit().charAt(0).toLowerCase() + this.getHumanValue().charAt(0).toLowerCase() + ".png";
@@ -99,5 +103,8 @@ Cards.helpers({
     else{
       return this.value;
     }
+  },
+  turnOver: function() {
+    Cards.update(this._id, {$set: {faceUp: 1}});
   }
 });
