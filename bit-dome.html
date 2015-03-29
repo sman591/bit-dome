@@ -15,11 +15,14 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Bit Dome</a>
+        <a class="navbar-brand" href="/">Bit Dome</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           {{> navItems}}
+        </ul>
+        <ul class="navbar-form navbar-right">
+          {{> userInfo}}
         </ul>
       </div><!--/.nav-collapse -->
     </div>
@@ -35,6 +38,13 @@
   <li class="{{ activeIfTemplateIs 'About' }}">
     <a href="{{ pathFor 'about'}}">About</a>
   </li>
+</template>
+
+<template name="userInfo">
+  <p>
+    <strong>20</strong> Credits
+    <strong>$19</strong> Donated to Charity
+  </p>
 </template>
 
 <template name="Home">
@@ -54,11 +64,11 @@
       <div class="col-lg-4">
         <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
         <h2>Charitable Winnings</h2>
-        <p>All house winnings go to chartiy. What is there to lose?</p>
+        <p>All house winnings go to charity*. What is there to lose?</p>
       </div>
       <div class="col-lg-4">
         <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-        <h2>You still win</h2>
+        <h2>Win-Win!</h2>
         <p>What's yours is yours- anything you win you get to keep.</p>
       </div>
       <div class="col-lg-4">
