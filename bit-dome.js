@@ -104,6 +104,12 @@ if (Meteor.isClient) {
   Template.Playblackjack.helpers({
   });
 
+  Template.Playblackjack.events({
+    'click button': function() {
+      this.game().deck().shuffle();
+    }
+  })
+
   // counter starts at 0
   Session.setDefault('counter', 0);
 

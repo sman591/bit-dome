@@ -29,7 +29,7 @@ Decks.helpers({
       var t = Math.random() * this.cardIds.length;
       temp.push(this.cardIds.splice(t,1)[0]);
     }
-    this.cardIds = temp;
+    Decks.update(this._id, {$set: {cardIds: temp}});
   },
   drawCard: function(){
     return this.cardIds.splice(0,1)[0];
