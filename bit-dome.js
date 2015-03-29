@@ -93,10 +93,11 @@ if (Meteor.isClient) {
           }));
         }
       }
-      var deck = Decks.insert({
+      var deckId = Decks.insert({
         gameId: gameId,
         cardIds: cardIds
       });
+      Decks.findOne({_id: deckId}).shuffle();
 
     }
   });
