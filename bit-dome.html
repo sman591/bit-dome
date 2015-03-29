@@ -123,8 +123,8 @@
         <h4>Current Blackjack Games:</h4>
         <ul>
           {{#each games}}
-            <li>Game: {{text}}
-              {{#linkTo route="playGame.show" gameName="blackjack" id=id}}{{_id}}{{/linkTo}}
+            <li>
+              {{#linkTo route="playGame.show" gameName="blackjack" id=id}}{{name}}{{/linkTo}}
             </li>
           {{/each}}
         </ul>
@@ -148,6 +148,7 @@
           {{/each}}
         </ul>
         <h3>Dealer Cards:</h3>
+
         <ul>
           {{#each game.dealerCards}}
             <li>Card:<ul>

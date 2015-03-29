@@ -66,8 +66,14 @@ if (Meteor.isClient) {
   Template.Listblackjack.events({
     'click button': function() {
 
+      var gameName = prompt("Please name your game:");
+
+      if (gameName == null) {
+        return;
+      }
+
       var gameId = BlackjackGames.insert({
-        name: "My Blackjack Game",
+        name: gameName,
         createdAt: new Date(),
         owner: Meteor.userId(),
         players: [
