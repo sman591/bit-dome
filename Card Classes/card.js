@@ -1,4 +1,4 @@
-var card = class.extend({
+/*var card = class.extend({
 	init: function(suit,value){
 		this.suit = suit;
 		this.value=value;
@@ -46,12 +46,12 @@ var Deck = class.extend({
 
 	init: function(){
 		this.cards=[];
-	
-		
+
+
 		for(i=1; i<=4; i++){
 			for(k=1; k<=13; k++){
 				this.cards[(i*k)+1]=card(i,k);
-					
+
 			}
 		}
 	}
@@ -74,4 +74,4 @@ var Deck = class.extend({
 	getcard: function(z){
 		return cards[z];
 	}
-});
+});*/

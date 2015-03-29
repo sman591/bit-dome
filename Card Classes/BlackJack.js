@@ -1,4 +1,4 @@
-var player = class.extend({
+/*var player = class.extend({
 
 	init: function(money) {
 		this.money=money;
@@ -73,4 +73,4 @@ var rounds = class.extend({
 			dealer.play();
 		}
 	}
-});
+});*/
