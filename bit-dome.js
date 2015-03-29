@@ -16,12 +16,30 @@ if (Meteor.isClient) {
     name: 'about'
   });
 
+  Router.route('/play', function () {
+    this.render('Play');
+  }, {
+    name: 'play'
+  });
+
+  Router.route('/play/:_id', function () {
+    this.render('Play' + this.params._id);
+  }, {
+    name: 'playGame'
+  });
+
   Template.navItems.helpers({
     // http://robertdickert.com/blog/2014/05/09/set-up-navigation-with-iron-router-and-bootstrap/
     activeIfTemplateIs: function (template) {
       var currentRoute = Router.current();
       return currentRoute &&
         template === currentRoute.lookupTemplate() ? 'active' : '';
+    }
+  });
+
+  Template.Play.helpers({
+    games: function () {
+      return Games.find({});
     }
   });
 
