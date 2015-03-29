@@ -38,8 +38,6 @@ if (Meteor.isClient) {
       data: {
         game: function () {
           var game = BlackjackGames.findOne({_id: id});
-          console.log(game);
-          window.test = game;
           return game;
         }
       }

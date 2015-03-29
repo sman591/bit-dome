@@ -11,7 +11,6 @@ BlackjackGames.helpers({
     this.playerIds.forEach(function(index, e, array) {
       players.push(Players.findOne({ _id: e }));
     });
-    console.log(players);
     return players;
   }
 });
