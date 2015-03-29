@@ -74,13 +74,13 @@ if (Meteor.isClient) {
         name: gameName,
         createdAt: new Date(),
         owner: Meteor.userId(),
-        players: [
-          {
-            accountId: Meteor.userId(),
-            cards: []
-          }
-        ],
         dealerCardIds: []
+      });
+
+      Players.insert({
+        accountId: Meteor.userId(),
+        gameId: gameId,
+        cardIds: []
       });
 
       var cardIds = [];
@@ -105,8 +105,11 @@ if (Meteor.isClient) {
   });
 
   Template.Playblackjack.events({
-    'click button': function() {
+    'click .shuffle': function() {
       this.game().deck().shuffle();
+    },
+    'click .deal': function() {
+      this.game().deal();
     }
   })
 

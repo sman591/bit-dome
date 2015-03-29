@@ -1,17 +1,38 @@
 BlackjackGames = new Mongo.Collection("blackjackGames");
 Decks = new Mongo.Collection("decks");
 Cards = new Mongo.Collection("cards");
+Players = new Mongo.Collection("players");
+
+Players.helpers({
+  cards: function() {
+    var cards = [];
+    this.cardIds.forEach(function(id) {
+      cards.push(Cards.findOne({ _id: id }));
+    });
+    return cards;
+  }
+});
 
 BlackjackGames.helpers({
   deck: function() {
     return Decks.findOne({ gameId: this._id });
   },
   players: function() {
-    var players = [];
-    this.playerIds.forEach(function(index, e, array) {
-      players.push(Players.findOne({ _id: e }));
+    return Players.find({ gameId: this._id });
+  },
+  deal: function() {
+    var self = this;
+    this.players().forEach(function(player) {
+      Players.update({_id: player._id}, {$push: {cardIds: self.deck().drawCard()}});
     });
-    return players;
+    BlackjackGames.update({_id: this._id}, {$push: {dealerCardIds: this.deck().drawCard()}});
+  },
+  dealerCards: function() {
+    var cards = [];
+    this.dealerCardIds.forEach(function(id) {
+      cards.push(Cards.findOne({ _id: id }));
+    });
+    return cards;
   }
 });
 
@@ -32,7 +53,9 @@ Decks.helpers({
     Decks.update(this._id, {$set: {cardIds: temp}});
   },
   drawCard: function(){
-    return this.cardIds.splice(0,1)[0];
+    var cardId = this.cardIds.splice(0,1)[0];
+    Decks.update(this._id, {$set: {cardIds: this.cardIds}});
+    return cardId;
   }
 });
 

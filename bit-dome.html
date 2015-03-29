@@ -144,41 +144,35 @@
         <ul>
           {{#each game.players}}
             <li>Account ID: {{accountId}}</li>
-            <li>Hand Card Count: {{cards.length}}</li>
+            <li>Hand Cards: {{cards.length}}
+              <ul>
+                {{#each cards}}
+                  {{> card}}
+                {{/each}}
+            </ul></li>
           {{/each}}
         </ul>
         <h3>Dealer Cards:</h3>
-
         <ul>
           {{#each game.dealerCards}}
-            <li>Card:<ul>
-              <li>Suit: {{suit}}</li>
-              <li>Suit: {{getHumanSuit}}</li>
-              <li>Value: {{value}}</li>
-              <li>FaceUp: {{faceUp}}</li>
-            </ul></li>
+            {{> card}}
           {{/each}}
         </ul>
         <h3>Deck:</h3>
         <ul>
           {{#each game.deck.cards}}
-            <li>Card:<ul>
-              <li>Suit: {{suit}}</li>
-              <li>Suit: {{getHumanSuit}}</li>
-              <li>Value: {{value}}</li>
-              <li>FaceUp: {{faceUp}}</li>
-              <img src="{{getImagePath}}" />
-            </ul></li>
+            {{> card}}
           {{/each}}
         </ul>
       </div>
     </div>
     <div class="row">
       <div class="well col-xs-12">
-        <button class="btn btn-info">Shuffle</button>
-        <button class="btn btn-info">Hit</button>
-        <button class="btn btn-info">Stay</button>
-        <button class="btn btn-info">Bet</button>
+        <button class="btn btn-info shuffle">Shuffle</button>
+        <button class="btn btn-info deal">Deal</button>
+        <button class="btn">Hit</button>
+        <button class="btn">Stay</button>
+        <button class="btn">Bet</button>
       </div>
     </div>
   </div> <!-- /container -->
@@ -192,6 +186,16 @@
       </div>
     </div>
   </div> <!-- /container -->
+</template>
+
+<template name="card">
+  <li>Card:<ul>
+    <li>Suit: {{suit}}</li>
+    <li>Suit: {{getHumanSuit}}</li>
+    <li>Value: {{value}}</li>
+    <li>FaceUp: {{faceUp}}</li>
+    <img src="{{getImagePath}}" />
+  </ul></li>
 </template>
 
 <template name="hello">
