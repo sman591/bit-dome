@@ -85,6 +85,8 @@ if (Meteor.isClient) {
 
       BlackjackGames.findOne({_id: gameId}).restart();
 
+      Iron.controller().redirect('/play/blackjack/' + gameId);
+
     }
   });
 
