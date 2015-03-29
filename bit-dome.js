@@ -103,6 +103,10 @@ if (Meteor.isClient) {
     },
     'click .restart': function() {
       this.game().restart();
+    },
+    'click .quit': function() {
+      BlackjackGames.remove({ _id: this.game()._id });
+      Iron.controller().redirect('/play/blackjack');
     }
   })
 
