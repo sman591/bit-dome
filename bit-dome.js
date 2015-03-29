@@ -84,8 +84,8 @@ if (Meteor.isClient) {
       });
 
       var cardIds = [];
-      for (var s = 0; s < 4; s++) {
-        for (var v  = 0; v < 13; v++) {
+      for (var s = 1; s <= 4; s++) {
+        for (var v  = 1; v <= 13; v++) {
           cardIds.push(Cards.insert({
             suit: s,
             value: v,

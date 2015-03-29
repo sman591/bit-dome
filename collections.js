@@ -51,6 +51,12 @@ Cards.helpers({
       return "Diamonds";
     }
   },
+  getImagePath: function() {
+    if(this.value < 11)
+      return "/cards/" + this.getHumanSuit().charAt(0).toLowerCase() + this.value + ".png";
+    else
+      return "/cards/" + this.getHumanSuit().charAt(0).toLowerCase() + this.getHumanValue().charAt(0).toLowerCase() + ".png";
+  },
   getValue: function(){
     return this.value;
   },

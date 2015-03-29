@@ -153,6 +153,7 @@
           {{#each game.dealerCards}}
             <li>Card:<ul>
               <li>Suit: {{suit}}</li>
+              <li>Suit: {{getHumanSuit}}</li>
               <li>Value: {{value}}</li>
               <li>FaceUp: {{faceUp}}</li>
             </ul></li>
@@ -163,8 +164,10 @@
           {{#each game.deck.cards}}
             <li>Card:<ul>
               <li>Suit: {{suit}}</li>
+              <li>Suit: {{getHumanSuit}}</li>
               <li>Value: {{value}}</li>
               <li>FaceUp: {{faceUp}}</li>
+              <img src="{{getImagePath}}" />
             </ul></li>
           {{/each}}
         </ul>
@@ -173,6 +176,9 @@
     <div class="row">
       <div class="well col-xs-12">
         <button class="btn btn-info">Shuffle</button>
+        <button class="btn btn-info">Hit</button>
+        <button class="btn btn-info">Stay</button>
+        <button class="btn btn-info">Bet</button>
       </div>
     </div>
   </div> <!-- /container -->
