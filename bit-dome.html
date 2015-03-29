@@ -143,17 +143,25 @@
         <h3>Players:</h3>
         <ul>
           {{#each game.players}}
-            <li>Account ID: {{accountId}}</li>
-            <li>Hand Cards: {{cards.length}}
-              <ul class="cards">
-                {{#each cards}}
-                  {{> card}}
-                {{/each}}
-            </ul></li>
+            <p>Total in hand: {{value}}
+            {{#if getStatus}}
+              <strong>{{getStatus}}!</strong>
+            {{/if}}
+            </p>
+            <ul class="cards">
+              {{#each cards}}
+                {{> card}}
+              {{/each}}
+            </ul>
           {{/each}}
         </ul>
         <h3>Dealer Cards:</h3>
         <ul class="cards">
+          <p>Total: {{game.dealerValue}}
+            {{#if game.dealerGetStatus}}
+              <strong>{{game.dealerGetStatus}}!</strong>
+            {{/if}}
+            </p>
           {{#each game.dealerCards}}
             {{> card}}
           {{/each}}
@@ -169,11 +177,16 @@
     </div>
     <div class="row">
       <div class="well col-xs-12">
-        <button class="btn btn-info shuffle">Shuffle</button>
-        <button class="btn btn-info deal">Deal</button>
-        <button class="btn btn-info hit">Hit</button>
-        <button class="btn btn-info stand">Stand</button>
-        <button class="btn">Bet</button>
+        {{#if game.canPlay}}
+          {{#if game.canDeal}}
+            <button class="btn btn-info deal">Deal</button>
+          {{/if}}
+          <button class="btn btn-info hit">Hit</button>
+          <button class="btn btn-info stand">Stand</button>
+          <button class="btn">Bet</button>
+        {{else}}
+          <button class="btn btn-primary restart">Play Again</button>
+        {{/if}}
       </div>
     </div>
   </div> <!-- /container -->

@@ -33,5 +33,5 @@
 - Player
   - _id
   - accountId
-  - credits
-  - username (meteor)
+  - gameId
+  - cardIds

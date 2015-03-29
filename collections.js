@@ -10,6 +10,28 @@ Players.helpers({
       cards.push(Cards.findOne({ _id: id }));
     });
     return cards;
+  },
+  value: function() {
+    totalValue = 0;
+    this.cards().forEach(function(card) {
+      totalValue += card.getBlackjackValue();
+    });
+    return totalValue;
+  },
+  busted: function() {
+    return this.value() > 21;
+  },
+  blackjack: function() {
+    return this.value() == 21;
+  },
+  getStatus: function() {
+    if (this.busted()){
+      return "Busted";
+    }
+    if (this.blackjack()) {
+      return "Blackjack"
+    }
+    return "";
   }
 });
 
@@ -19,6 +41,9 @@ BlackjackGames.helpers({
   },
   players: function() {
     return Players.find({ gameId: this._id });
+  },
+  canDeal: function() {
+    return this.deck().cardIds.length == 52;
   },
   deal: function() {
     for (var i = 0; i < 2; i++) {
@@ -30,7 +55,6 @@ BlackjackGames.helpers({
         Cards.findOne({_id: newCardId}).turnOver();
       }
     }
-    // this.evaluateHands();
   },
   dealPlayers: function() {
     var self = this;
@@ -39,6 +63,28 @@ BlackjackGames.helpers({
       Players.update({_id: player._id}, {$push: {cardIds: newCardId}});
       Cards.findOne({_id: newCardId}).turnOver();
     });
+  },
+  dealerValue: function() {
+    totalValue = 0;
+    this.dealerCards().forEach(function(card) {
+      totalValue += card.getBlackjackValue();
+    });
+    return totalValue;
+  },
+  dealerBusted: function() {
+    return this.dealerValue() > 21;
+  },
+  dealerBlackjack: function() {
+    return this.dealerValue() == 21;
+  },
+  dealerGetStatus: function() {
+    if (this.dealerBusted()){
+      return "Busted";
+    }
+    if (this.dealerBlackjack()) {
+      return "Blackjack"
+    }
+    return "";
   },
   dealDealer: function() {
     var lastCard = this.dealerCards()[this.dealerCardIds.length-1];
@@ -52,11 +98,9 @@ BlackjackGames.helpers({
   },
   hit: function() {
     this.dealPlayers();
-    // this.evaluateHands();
   },
   stand: function() {
     this.dealDealer();
-    // this.evaluateHands();
   },
   dealerCards: function() {
     var cards = [];
@@ -64,6 +108,42 @@ BlackjackGames.helpers({
       cards.push(Cards.findOne({ _id: id }));
     });
     return cards;
+  },
+  canPlay: function() {
+    if (this.dealerGetStatus() != "") {
+      return false;
+    }
+    var canPlay = true;
+    this.players().forEach(function(player){
+      if (player.getStatus() != "") {
+        canPlay = false;
+      }
+    });
+    return canPlay;
+  },
+  restart: function() {
+    BlackjackGames.update({_id: this._id}, {$set: {dealerCardIds: []}});
+    Players.find({gameId: this._id}).forEach(function(player) {
+      Players.update({_id: player._id}, {$set: {cardIds: []}});
+    });
+    var cardIds = [];
+    for (var s = 1; s <= 4; s++) {
+      for (var v  = 1; v <= 13; v++) {
+        cardIds.push(Cards.insert({
+          suit: s,
+          value: v,
+          faceUp: 0
+        }));
+      }
+    }
+    Decks.find({gameId: this._id}).forEach(function(deck) {
+      Decks.remove({_id: deck._id});
+    });
+    var deckId = Decks.insert({
+      gameId: this._id,
+      cardIds: cardIds
+    });
+    Decks.findOne({_id: deckId}).shuffle();
   }
 });
 
@@ -114,6 +194,12 @@ Cards.helpers({
       return "/cards/" + this.getHumanSuit().charAt(0).toLowerCase() + this.getHumanValue().charAt(0).toLowerCase() + ".png";
   },
   getValue: function(){
+    return this.value;
+  },
+  getBlackjackValue: function() {
+    if (this.value > 10) {
+      return 10;
+    }
     return this.value;
   },
   getHumanValue: function(){

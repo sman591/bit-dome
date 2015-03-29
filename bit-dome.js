@@ -83,21 +83,7 @@ if (Meteor.isClient) {
         cardIds: []
       });
 
-      var cardIds = [];
-      for (var s = 1; s <= 4; s++) {
-        for (var v  = 1; v <= 13; v++) {
-          cardIds.push(Cards.insert({
-            suit: s,
-            value: v,
-            faceUp: 0
-          }));
-        }
-      }
-      var deckId = Decks.insert({
-        gameId: gameId,
-        cardIds: cardIds
-      });
-      Decks.findOne({_id: deckId}).shuffle();
+      BlackjackGames.findOne({_id: gameId}).restart();
 
     }
   });
@@ -106,9 +92,6 @@ if (Meteor.isClient) {
   });
 
   Template.Playblackjack.events({
-    'click .shuffle': function() {
-      this.game().deck().shuffle();
-    },
     'click .deal': function() {
       this.game().deal();
     },
@@ -117,6 +100,9 @@ if (Meteor.isClient) {
     },
     'click .stand': function() {
       this.game().stand();
+    },
+    'click .restart': function() {
+      this.game().restart();
     }
   })
 
