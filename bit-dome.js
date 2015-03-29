@@ -111,6 +111,12 @@ if (Meteor.isClient) {
     },
     'click .deal': function() {
       this.game().deal();
+    },
+    'click .hit': function() {
+      this.game().hit();
+    },
+    'click .stand': function() {
+      this.game().stand();
     }
   })
 

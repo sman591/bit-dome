@@ -21,13 +21,42 @@ BlackjackGames.helpers({
     return Players.find({ gameId: this._id });
   },
   deal: function() {
+    for (var i = 0; i < 2; i++) {
+      this.dealPlayers();
+      //this.dealDealer();
+      var newCardId = this.deck().drawCard();
+      BlackjackGames.update({_id: this._id}, {$push: {dealerCardIds: newCardId}});
+      if (i == 0) {
+        Cards.findOne({_id: newCardId}).turnOver();
+      }
+    }
+    // this.evaluateHands();
+  },
+  dealPlayers: function() {
     var self = this;
     this.players().forEach(function(player) {
       var newCardId = self.deck().drawCard();
       Players.update({_id: player._id}, {$push: {cardIds: newCardId}});
       Cards.findOne({_id: newCardId}).turnOver();
     });
-    BlackjackGames.update({_id: this._id}, {$push: {dealerCardIds: this.deck().drawCard()}});
+  },
+  dealDealer: function() {
+    var lastCard = this.dealerCards()[this.dealerCardIds.length-1];
+    if (lastCard.faceUp == 0) {
+      lastCard.turnOver();
+    } else {
+      var newCardId = this.deck().drawCard();
+      BlackjackGames.update({_id: this._id}, {$push: {dealerCardIds: newCardId}});
+      Cards.findOne({_id: newCardId}).turnOver();
+    }
+  },
+  hit: function() {
+    this.dealPlayers();
+    // this.evaluateHands();
+  },
+  stand: function() {
+    this.dealDealer();
+    // this.evaluateHands();
   },
   dealerCards: function() {
     var cards = [];
