@@ -70,7 +70,12 @@ if (Meteor.isClient) {
         name: "My Blackjack Game",
         createdAt: new Date(),
         owner: Meteor.userId(),
-        players: [],
+        players: [
+          {
+            accountId: Meteor.userId(),
+            cards: []
+          }
+        ],
         dealerCardIds: []
       });
 
