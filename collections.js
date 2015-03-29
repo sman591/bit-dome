@@ -41,6 +41,11 @@ BlackjackGames.helpers({
   deck: function() {
     return Decks.findOne({ gameId: this._id });
   },
+  increaseBet: function(amount) {
+    Session.set('credits', Session.get('credits') - amount);
+    var playerId = Players.findOne({ gameId: this._id })._id;
+    Players.update({_id: playerId}, {$inc: {bet: amount}});
+  },
   players: function() {
     return Players.find({ gameId: this._id });
   },
@@ -50,13 +55,13 @@ BlackjackGames.helpers({
   deal: function() {
     for (var i = 0; i < 2; i++) {
       this.dealPlayers();
-      //this.dealDealer();
       var newCardId = this.deck().drawCard();
       BlackjackGames.update({_id: this._id}, {$push: {dealerCardIds: newCardId}});
       if (i == 0) {
         Cards.findOne({_id: newCardId}).turnOver();
       }
     }
+    this.processWins();
   },
   dealPlayers: function() {
     var self = this;
@@ -102,9 +107,11 @@ BlackjackGames.helpers({
   },
   hit: function() {
     this.dealPlayers();
+    this.processWins();
   },
   stand: function() {
     this.dealDealer();
+    this.processWins();
   },
   dealerCards: function() {
     var cards = [];
@@ -125,10 +132,19 @@ BlackjackGames.helpers({
     });
     return canPlay;
   },
+  processWins: function() {
+    if (this.dealerBlackjack()) {
+      Session.set('charity', Session.get('charity') + this.dealerValue());
+    }
+    var player = Players.findOne({gameId: this._id});
+    if (player.blackjack()) {
+      Session.set('credits', Session.get('credits') + player.value() + player.value());
+    }
+  },
   restart: function() {
     BlackjackGames.update({_id: this._id}, {$set: {dealerCardIds: []}});
     Players.find({gameId: this._id}).forEach(function(player) {
-      Players.update({_id: player._id}, {$set: {cardIds: []}});
+      Players.update({_id: player._id}, {$set: {cardIds: [], bet: 0}});
     });
     var cardIds = [];
     for (var s = 1; s <= 4; s++) {
@@ -148,6 +164,17 @@ BlackjackGames.helpers({
       cardIds: cardIds
     });
     Decks.findOne({_id: deckId}).shuffle();
+  },
+  cleanUp: function() {
+    Players.find({gameId: this._id}).forEach(function(player) {
+      Players.remove({_id: player._id});
+    });
+    this.deck().cardIds.forEach(function(cardId) {
+      Cards.remove({_id: cardId});
+    });
+    Decks.find({gameId: this._id}).forEach(function(deck) {
+      Decks.remove({_id: deck._id});
+    });
   }
 });
 

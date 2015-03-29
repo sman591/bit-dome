@@ -44,11 +44,13 @@
 </template>
 
 <template name="userInfo">
+  {{#if currentUser}}
   <li>
-    <a><strong>4720</strong> Credits</a>
+    <a><strong>{{credits}}</strong> Credits</a>
   </li>
+  {{/if}}
   <li>
-    <a><strong>$219</strong> Donated to Charity</a>
+    <a><strong>${{charity}}</strong> Donated to Charity</a>
   </li>
 </template>
 
@@ -103,10 +105,10 @@
         <h2>Choose a game</h2>
         <ul>
           <li>
-            <a href="/play/blackjack">Blackjack</a>
+            <a href="/play/blackjack"><h4>Blackjack</h4></a>
           </li>
           <li>
-            <a href="/play/slots">Slots</a>
+            <a href="/play/slots"><h4>Slots</h4></a>
           </li>
         </ul>
       </div>
@@ -137,7 +139,7 @@
 <audio autoplay loop>
   <source src="/blackjack.ogg" type="audio/ogg">
   <source src="/blackjack.mp3" type="audio/mpeg">
-</audio> 
+</audio>
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
@@ -145,6 +147,7 @@
         <h3>Players:</h3>
         <ul>
           {{#each game.players}}
+            <p>Bet: {{bet}}</p>
             <p>Total in hand: {{value}}
             {{#if getStatus}}
               <strong>{{getStatus}}!</strong>
@@ -177,9 +180,12 @@
           {{#if game.canDeal}}
             <button class="btn btn-info deal">Deal</button>
           {{/if}}
-          <button class="btn btn-info hit">Hit</button>
-          <button class="btn btn-info stand">Stand</button>
-          <button class="btn">Bet</button>
+          {{#if game.dealerValue}}
+            <button class="btn btn-info hit">Hit</button>
+            <button class="btn btn-info stand">Stand</button>
+          {{else}}
+            <button class="btn btn-info bet">Increase Bet</button>
+          {{/if}}
         {{else}}
           <button class="btn btn-primary restart">Play Again</button>
           <button class="btn btn-danger quit">End Game</button>
@@ -198,7 +204,7 @@
         <audio autoplay loop>
           <source src="/Slots Sound/slotsroll.ogg" type="audio/ogg">
           <source src="/Slots Sound/slotsroll.mp3" type="audio/mpeg">
-        </audio> 
+        </audio>
       </div>
     </div>
   </div> <!-- /container -->

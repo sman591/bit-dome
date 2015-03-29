@@ -55,6 +55,18 @@ if (Meteor.isClient) {
     }
   });
 
+  Session.setDefault('credits', 4370);
+  Session.setDefault('charity', 3219);
+
+  Template.userInfo.helpers({
+    credits: function() {
+      return Session.get('credits');
+    },
+    charity: function() {
+      return Session.get('charity');
+    }
+  });
+
   Template.Listblackjack.helpers({
     games: function() {
       return BlackjackGames.find({});
@@ -80,7 +92,8 @@ if (Meteor.isClient) {
       Players.insert({
         accountId: Meteor.userId(),
         gameId: gameId,
-        cardIds: []
+        cardIds: [],
+        bet: 0
       });
 
       BlackjackGames.findOne({_id: gameId}).restart();
@@ -107,8 +120,12 @@ if (Meteor.isClient) {
       this.game().restart();
     },
     'click .quit': function() {
+      this.game().cleanUp();
       BlackjackGames.remove({ _id: this.game()._id });
       Iron.controller().redirect('/play/blackjack');
+    },
+    'click .bet': function() {
+      this.game().increaseBet(5);
     }
   })
 }
@@ -116,5 +133,10 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
+  });
+
+  Accounts.onCreateUser(function(options, user) {
+    user.credits = 0;
+    return user;
   });
 }

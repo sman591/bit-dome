@@ -34,4 +34,5 @@
   - _id
   - accountId
   - gameId
+  - bet
   - cardIds
