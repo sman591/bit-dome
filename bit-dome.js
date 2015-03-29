@@ -22,10 +22,26 @@ if (Meteor.isClient) {
     name: 'play'
   });
 
-  Router.route('/play/:_id', function () {
-    this.render('Play' + this.params._id);
+  Router.route('/play/:gameName', function () {
+    this.render('List' + this.params.gameName);
   }, {
     name: 'playGame'
+  });
+
+  Router.route('/play/:gameName/:_id', function () {
+    var id = this.params._id
+    this.render('Play' + this.params.gameName, {
+      data: {
+        game: function () {
+          var game = BlackjackGames.findOne({_id: id});
+          console.log(game);
+          window.test = game;
+          return game;
+        }
+      }
+    });
+  }, {
+    name: 'playGame.show'
   });
 
   Template.navItems.helpers({
@@ -37,10 +53,42 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.Play.helpers({
-    games: function () {
-      return Games.find({});
+  Template.Listblackjack.helpers({
+    games: function() {
+      return BlackjackGames.find({});
     }
+  });
+
+  Template.Listblackjack.events({
+    'click button': function() {
+
+      var gameId = BlackjackGames.insert({
+        name: "My Blackjack Game",
+        createdAt: new Date(),
+        owner: Meteor.userId(),
+        players: [],
+        dealerCardIds: []
+      });
+
+      var cardIds = [];
+      for (var s = 0; s < 4; s++) {
+        for (var v  = 0; v < 13; v++) {
+          cardIds.push(Cards.insert({
+            suit: s,
+            value: v,
+            faceUp: 0
+          }));
+        }
+      }
+      var deck = Decks.insert({
+        gameId: gameId,
+        cardIds: cardIds
+      });
+
+    }
+  });
+
+  Template.Playblackjack.helpers({
   });
 
   // counter starts at 0

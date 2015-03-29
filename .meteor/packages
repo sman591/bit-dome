@@ -11,3 +11,4 @@ accounts-ui
 accounts-password
 mizzao:bootstrap-3
 iron:router
+dburles:collection-helpers

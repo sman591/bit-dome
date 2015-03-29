@@ -115,17 +115,63 @@
   </div> <!-- /container -->
 </template>
 
-<template name="Playblackjack">
+<template name="Listblackjack">
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
         <h1>Blackjack!</h1>
+        <h4>Current Blackjack Games:</h4>
+        <ul>
+          {{#each games}}
+            <li>Game: {{text}}
+              {{#linkTo route="playGame.show" gameName="blackjack" id=id}}{{_id}}{{/linkTo}}
+            </li>
+          {{/each}}
+        </ul>
+        <button class="btn btn-primary">Create new game</button>
       </div>
     </div>
   </div> <!-- /container -->
 </template>
 
-<template name="Playslots">
+<template name="Playblackjack">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Blackjack!</h1>
+        <h3>Game name: {{game.name}}</h3>
+        <h3>Players:</h3>
+        <ul>
+          {{#each game.players}}
+            <li>Player: {{game}}</li>
+          {{/each}}
+        </ul>
+        <h3>Dealer Cards:</h3>
+        <ul>
+          {{#each game.dealerCards}}
+            <li>Card:<ul>
+              <li>Suit: {{suit}}</li>
+              <li>Value: {{value}}</li>
+              <li>FaceUp: {{faceUp}}</li>
+            </ul></li>
+          {{/each}}
+        </ul>
+        <h3>Deck:</h3>
+        <ul>
+          {{#each game.deck.cards}}
+            <li>Card:<ul>
+              <li>Suit: {{suit}}</li>
+              <li>Value: {{value}}</li>
+              <li>FaceUp: {{faceUp}}</li>
+            </ul></li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  </div> <!-- /container -->
+</template>
+
+<template name="Listslots">
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
